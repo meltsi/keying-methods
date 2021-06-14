@@ -27,6 +27,7 @@ source cv/bin/activate
 pip3 install opencv-python
 python3 -c "import cv2"
 cd ~/cv
+https://git.hacknology.de/projekte/PimpedWebcam
 PimpMyWebcam Methoden einfügen
 Webcam Name in virtcam.sh ändern(Zeile 28)
 bash virtcam.sh
