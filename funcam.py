@@ -208,7 +208,7 @@ def ChromaKeyVersion1a(frame4):
     return(resultimage)
 
 #Chroma Key 1b ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#todo desc
+#method, that uses ChromaKey1a on the actual frame and a mix of all previous frames and combines the result
 
 #updates counters after every loop
 def counterplusone():
@@ -313,7 +313,7 @@ def makemask(frame4):
 
 
 #Chroma Key 2-------------------------------------------------------------------------------------
-#todo desc
+#Chroma Key (YcrCb version)
 def ChromaKeyVersion2(frame4):
     #array that returns the result
     resultimage= np.zeros((width,height,3), np.uint8)
@@ -367,8 +367,8 @@ def ChromaKeyVersion2(frame4):
 
 
 #Chroma Key 3
-#todo desc
-#todo fix
+#Chroma Key (HSV version)
+#fix method
 def ChromaKeyVersion3(frame4):
     #array that returns the result
     resultimage= np.zeros((width,height,3), np.uint8)
@@ -418,7 +418,14 @@ def ChromaKeyVersion3(frame4):
     resultimage[:,:,2]=((distances[:,:])*frame4[:,:,2])+((1-distances[:,:])*alternate_background[:,:,2])
     return(resultimage)
 
-#Color Key
+
+
+
+
+
+
+#Color Key ---------------------------------------------------------------------------------------------------------------
+#compares rgb colors of frame and key
 
 def ColorKey(frame4):
     #array that returns the result
@@ -454,9 +461,17 @@ def ColorKey(frame4):
     resultimage[:,:,2]=((distances[:,:])*frame4[:,:,2])+((1-distances[:,:])*alternate_background[:,:,2])
     return(resultimage)
 
+
+
+
+
+
+
+
 #Luma Key 1------------------------------------------------------------------------------------
 
-#todo add source
+#https://en.wikipedia.org/wiki/Smoothstep
+#https://archive.is/20120708021136/http://ati.amd.com/developer/SIGGRAPH03/ATI_HardwareShading_SIGGRAPH2003.pps
 def smoothstep0(luminance):
     threshold1=220
     threshold2=250
@@ -542,12 +557,6 @@ while(cap.isOpened()):
             # Now: The fun stuff! ------------------------------------------
             #shape of frame
             width, height, channels = frame4.shape
-            
-            #initialize counters for number of frames (for mean-picture)   
-
-
-
-
 
             #make empty mask with same size as frame
             mask= np.zeros((width,height), np.uint8)
