@@ -2,8 +2,12 @@
 # -*- coding: utf-8 -*-
 
 
+#source: https://git.hacknology.de/projekte/PimpedWebcam/src/branch/master/funcam.py, https://www.hacknology.de/projekt/2020/pimpedwebcam/
+
+
+
+
 import numpy as np
-import datetime, time
 import sys
 import cv2
 
