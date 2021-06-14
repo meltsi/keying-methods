@@ -1,0 +1,37 @@
+(https://www.hacknology.de/projekt/2020/pimpedwebcam/)
+
+
+sudo apt-get install make
+sudo apt-get install gcc
+
+akvcam download Version 1.0.3 (https://github.com/webcamoid/akvcam/releases/tag/1.0.3)
+Verzeichnis umbenennen auf akvcam
+cd ~/akvcam/src
+make
+sudo make install
+sudo depmod -a
+ls /lib/modules/$(uname -r)/extra/akvcam.ko*
+sudo mkdir -p /etc/akvcam
+sudo touch /etc/akvcam/config.ini
+/etc/akvcam/config.ini anpassen
+sudo chmod -vf 600 /etc/akvcam/config.ini
+ls /dev/video* (Port 0 und 1)
+sudo modprobe videodev
+sudo insmod akvcam.ko 
+ls /dev/video* (neue Ports: 2 und 3)
+cd
+sudo apt install virtualenv
+which python3 (Pfad zu python3 finden)
+virtualenv cv --python="/usr/bin/python3" (Pfad zu python3)
+source cv/bin/activate
+pip3 install opencv-python
+python3 -c "import cv2"
+cd ~/cv
+PimpMyWebcam Methoden einfügen
+Webcam Name in virtcam.sh ändern(Zeile 28)
+bash virtcam.sh
+Kamera öffnen
+...
+Kamera schließen
+Strg+C
+
