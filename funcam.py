@@ -2,12 +2,8 @@
 # -*- coding: utf-8 -*-
 
 
-#source: https://git.hacknology.de/projekte/PimpedWebcam/src/branch/master/funcam.py, https://www.hacknology.de/projekt/2020/pimpedwebcam/
-
-
-
-
 import numpy as np
+import datetime, time
 import sys
 import cv2
 
@@ -208,7 +204,7 @@ def ChromaKeyVersion1a(frame4):
     return(resultimage)
 
 #Chroma Key 1b ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-#method, that uses ChromaKey1a on the actual frame and a mix of all previous frames and combines the result
+#todo desc
 
 #updates counters after every loop
 def counterplusone():
@@ -313,7 +309,7 @@ def makemask(frame4):
 
 
 #Chroma Key 2-------------------------------------------------------------------------------------
-#Chroma Key (YcrCb version)
+#todo desc
 def ChromaKeyVersion2(frame4):
     #array that returns the result
     resultimage= np.zeros((width,height,3), np.uint8)
@@ -367,8 +363,8 @@ def ChromaKeyVersion2(frame4):
 
 
 #Chroma Key 3
-#Chroma Key (HSV version)
-#fix method
+#todo desc
+#todo fix
 def ChromaKeyVersion3(frame4):
     #array that returns the result
     resultimage= np.zeros((width,height,3), np.uint8)
@@ -418,14 +414,7 @@ def ChromaKeyVersion3(frame4):
     resultimage[:,:,2]=((distances[:,:])*frame4[:,:,2])+((1-distances[:,:])*alternate_background[:,:,2])
     return(resultimage)
 
-
-
-
-
-
-
-#Color Key ---------------------------------------------------------------------------------------------------------------
-#compares rgb colors of frame and key
+#Color Key
 
 def ColorKey(frame4):
     #array that returns the result
@@ -461,17 +450,9 @@ def ColorKey(frame4):
     resultimage[:,:,2]=((distances[:,:])*frame4[:,:,2])+((1-distances[:,:])*alternate_background[:,:,2])
     return(resultimage)
 
-
-
-
-
-
-
-
 #Luma Key 1------------------------------------------------------------------------------------
 
-#https://en.wikipedia.org/wiki/Smoothstep
-#https://archive.is/20120708021136/http://ati.amd.com/developer/SIGGRAPH03/ATI_HardwareShading_SIGGRAPH2003.pps
+#todo add source
 def smoothstep0(luminance):
     threshold1=220
     threshold2=250
@@ -557,13 +538,19 @@ while(cap.isOpened()):
             # Now: The fun stuff! ------------------------------------------
             #shape of frame
             width, height, channels = frame4.shape
+            
+            #initialize counters for number of frames (for mean-picture)   
+
+
+
+
 
             #make empty mask with same size as frame
             mask= np.zeros((width,height), np.uint8)
 
             
             #apply filter
-	    frame4=ChromaKeyPlusDespill(frame4)
+            frame4=ChromaKeyPlusDespill(frame4)
             #frame4=ChromaKeyVersion1a(frame4)
             #frame4=ChromaKeyVersion1b(frame4)
             #frame4=ChromaKeyVersion2(frame4)
