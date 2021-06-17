@@ -1,0 +1,39 @@
+    #1. red limit
+    despill1_g=np.zeros((width,height,1))
+    despill1_g[(frame_g>frame_r).all(axis=2)]=1
+    despill1=np.zeros((width,height,3))
+    despill1[:,:,1]=despill1_g[:,:,0]
+    frame=np.where(despill1==1,frame_r,frame)
+    
+    
+    #2. blue limit
+    despill2_g=np.zeros((width,height,1))
+    despill2_g[(frame_g>frame_b).all(axis=2)]=1
+    despill2=np.zeros((width,height,3))
+    despill2[:,:,1]=despill2_g[:,:,0]
+    frame=np.where(despill2==1,frame_b,frame)
+    
+    
+    #3. average
+    despill3_g=np.zeros((width,height,1))
+    despill3_g[(frame_g>((frame_r+frame_b)/2)).all(axis=2)]=1
+    despill3=np.zeros((width,height,3))
+    despill3[:,:,1]=despill3_g[:,:,0]
+    frame=np.where(despill3==1,((frame_r+frame_b)/2),frame)
+    
+    
+    #4. double red average
+    despill4_g=np.zeros((width,height,1))
+    despill4_g[(frame_g>(((2*frame_r)+frame_b)/3)).all(axis=2)]=1
+    despill4=np.zeros((width,height,3))
+    despill4[:,:,1]=despill4_g[:,:,0]
+    frame=np.where(despill4==1,(((2*frame_r)+frame_b)/3),frame)
+    
+    #6. double blue average
+    despill5_g=np.zeros((width,height,1))
+    despill5_g[(frame_g>((frame_r+(2*frame_b))/3)).all(axis=2)]=1
+    despill5=np.zeros((width,height,3))
+    despill5[:,:,1]=despill5_g[:,:,0]
+    frame=np.where(despill5==1,((frame_r+(2*frame_b))/3),frame)
+    
+    
