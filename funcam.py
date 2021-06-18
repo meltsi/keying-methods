@@ -63,26 +63,7 @@ def ChromaKeyPlusDespill(frame4):
     chroma_key=cv2.cvtColor( np.uint8([[colorbase]] ), cv2.COLOR_RGB2YUV)[0][0]
     
     
-    #seperate color chanels
-    frame_r=np.zeros((width,height,1))
-    frame_r[:,:,0]=frame4[:,:,0]
-    frame_g=np.zeros((width,height,1))
-    frame_g[:,:,0]=frame4[:,:,1]
-    frame_b=np.zeros((width,height,1))
-    frame_b[:,:,0]=frame4[:,:,2]
-    
-    #3. despill version 3: average
-    despill3_g=np.zeros((width,height,1))
-    despill3_g[(frame_g>((frame_r+frame_b)/2)).all(axis=2)]=1
-    despill3=np.zeros((width,height,3))
-    despill3[:,:,1]=despill3_g[:,:,0]
-    
-    #apply despill on frame
-    frame4=np.where(despill3==1,((frame_r+frame_b)/2),frame4)
-    
-    
-    
-    
+    frame4=Despill1(frame4)
     
     #make copy of chroma_key for calculations outside of uint8
     chroma_key2=np.array([float(chroma_key[0]),float(chroma_key[1]),float(chroma_key[2])])
@@ -119,7 +100,7 @@ def ChromaKeyPlusDespill(frame4):
     distances=cv2.filter2D(distances,-1, kernel)
     
     
-     #and frame_g>230 and frame_b>230
+    #and frame_g>230 and frame_b>230
     
     #assign pixels with distances<threshold to foreground and >=threshold to foreground and make all other pixels transparent
     threshold1=95
@@ -139,6 +120,89 @@ def ChromaKeyPlusDespill(frame4):
 
     return(resultimage)
 
+def Despill1(frame4):
+    #seperate color chanels
+    frame_r=np.zeros((width,height,1))
+    frame_r[:,:,0]=frame4[:,:,0]
+    frame_g=np.zeros((width,height,1))
+    frame_g[:,:,0]=frame4[:,:,1]
+    frame_b=np.zeros((width,height,1))
+    frame_b[:,:,0]=frame4[:,:,2]
+    
+    despill_g=np.zeros((width,height,1))
+    despill_g[(frame_g>frame_r).all(axis=2)]=1
+    despill=np.zeros((width,height,3))
+    despill[:,:,1]=despill_g[:,:,0]
+    frame4=np.where(despill==1,frame_r,frame4)
+    return(frame4)
+
+def Despill2(frame4):
+    #seperate color chanels
+    frame_r=np.zeros((width,height,1))
+    frame_r[:,:,0]=frame4[:,:,0]
+    frame_g=np.zeros((width,height,1))
+    frame_g[:,:,0]=frame4[:,:,1]
+    frame_b=np.zeros((width,height,1))
+    frame_b[:,:,0]=frame4[:,:,2]
+    
+    despill_g=np.zeros((width,height,1))
+    despill_g[(frame_g>frame_b).all(axis=2)]=1
+    despill=np.zeros((width,height,3))
+    despill[:,:,1]=despill_g[:,:,0]
+    frame4=np.where(despill==1,frame_b,frame4)
+    return(frame4)
+    
+    
+def Despill3(frame4):
+    #seperate color chanels
+    frame_r=np.zeros((width,height,1))
+    frame_r[:,:,0]=frame4[:,:,0]
+    frame_g=np.zeros((width,height,1))
+    frame_g[:,:,0]=frame4[:,:,1]
+    frame_b=np.zeros((width,height,1))
+    frame_b[:,:,0]=frame4[:,:,2]
+    
+    #3. despill version 3: average
+    despill=np.zeros((width,height,1))
+    despill_g[(frame_g>((frame_r+frame_b)/2)).all(axis=2)]=1
+    despill=np.zeros((width,height,3))
+    despill[:,:,1]=despill_g[:,:,0]
+    #apply despill on frame
+    frame4=np.where(despill==1,((frame_r+frame_b)/2),frame4)
+    return(frame4)
+
+
+def Despill4(frame4):
+    #seperate color chanels
+    frame_r=np.zeros((width,height,1))
+    frame_r[:,:,0]=frame4[:,:,0]
+    frame_g=np.zeros((width,height,1))
+    frame_g[:,:,0]=frame4[:,:,1]
+    frame_b=np.zeros((width,height,1))
+    frame_b[:,:,0]=frame4[:,:,2]
+    
+    despill_g=np.zeros((width,height,1))
+    despill_g[(frame_g>(((2*frame_r)+frame_b)/3)).all(axis=2)]=1
+    despill=np.zeros((width,height,3))
+    despill[:,:,1]=despill_g[:,:,0]
+    frame4=np.where(despill==1,(((2*frame_r)+frame_b)/3),frame4)
+    return(frame4)
+
+def Despill5(frame4):
+    #seperate color chanels
+    frame_r=np.zeros((width,height,1))
+    frame_r[:,:,0]=frame4[:,:,0]
+    frame_g=np.zeros((width,height,1))
+    frame_g[:,:,0]=frame4[:,:,1]
+    frame_b=np.zeros((width,height,1))
+    frame_b[:,:,0]=frame4[:,:,2]
+    
+    despill_g=np.zeros((width,height,1))
+    despill_g[(frame_g>((frame_r+(2*frame_b))/3)).all(axis=2)]=1
+    despill=np.zeros((width,height,3))
+    despill[:,:,1]=despill_g[:,:,0]
+    frame4=np.where(despill==1,((frame_r+(2*frame_b))/3),frame4)
+    return(frame4)
 
 #Chroma Key 1a (yuv)----------------------------------------------------------------------------
 #Chroma Key (yuv version)
